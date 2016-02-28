@@ -1,0 +1,30 @@
+﻿@model AAAv1.Models.FilteredCars
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
+    <title>CarForm</title>
+</head>
+<body>
+    @*//TODO: make this page beautiful*@
+    @using (Html.BeginForm())
+    {
+        //TODO: instead of this stupid check make a floating window or even check by JS or other
+        @Html.ValidationSummary()
+        <p>Mark: @Html.TextBoxFor(x => x.CarMark) </p>
+        <p>Model: @Html.TextBoxFor(x => x.CarModel) </p>
+        <p>Price low: @Html.TextBoxFor(x => x.CarPriceLow) </p>
+        <p>Price high: @Html.TextBoxFor(x => x.CarPriceHigh) </p>
+        <p>Year low: @Html.TextBoxFor(x => x.CarYearLow) </p>
+        <p>Year high: @Html.TextBoxFor(x => x.CarYearHigh) </p>
+        <input type="submit" value="Search" />
+    }
+</body>
+</html>
