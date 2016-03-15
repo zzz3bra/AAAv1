@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AAAv1.Models;
+using System.Web.UI.WebControls;
 
 namespace AAAv1.Controllers
 {
@@ -12,7 +13,7 @@ namespace AAAv1.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //TODO: Home page with Cars,Flats,BrownTaxes instead of redirect
+            //TODO: Home page with Cars,Flats,BrownDachunds instead of redirect
             return RedirectFromIndexToForm();
         }
         public RedirectResult RedirectFromIndexToForm()
@@ -20,10 +21,25 @@ namespace AAAv1.Controllers
             return RedirectPermanent("/Home/CarForm");
         }
 
+        private IEnumerable<SelectListItem> GetInfo()
+        {
+            var roles = FilteredCars
+                .Manufacturers
+                        .Select(x =>
+                                new SelectListItem
+                                {
+                                    Value = x.Key.OnlinerID.ToString(),
+                                    Text = x.Key.Name
+                                });
+            return new SelectList(roles, "Value", "Text");
+        }
+
         [HttpGet]
         public ViewResult CarForm()
         {
-            return View();
+            FilteredCars filter = new FilteredCars();
+            filter.CarManufacturers = GetInfo();
+            return View(filter);
         }
 
         [HttpPost]
@@ -36,7 +52,9 @@ namespace AAAv1.Controllers
             }
             else
             {
-                return View();
+                FilteredCars filter = new FilteredCars();
+                filter.CarManufacturers = GetInfo();
+                return View(filter);
             }
         }
     }

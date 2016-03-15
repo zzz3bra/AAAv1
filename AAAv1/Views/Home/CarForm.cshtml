@@ -15,38 +15,37 @@
 <body>
     <style>
         Body {
-            background-color:azure;         
-                       
-        }    
-        div {               
+            background-color: azure;
+        }
+
+        div {
             border: 2px solid #ffff00;
             border-radius: 10px;
             padding: 10px 20px 10px 10px;
             margin: 50px;
-            width: 170px;             
-       
-        }  
+            width: 170px;
+        }
     </style>
 
     @*//TODO: make this page beautiful*@
-    
+
     @using (Html.BeginForm())
     {
         //TODO: instead of this stupid check make a floating window or even check by JS or other
         @Html.ValidationSummary()
-        <h1><font face="Arial">Выберите параметры <br>желаемого авто:</font></h1> 
+        <h1><font face="Arial">Выберите параметры <br>желаемого авто:</font></h1>
         <div>
-        <p>Марка:</p> 
-        <p>@Html.TextBoxFor(x => x.CarMark, new { style="width:176px;" })</p>
-        <p>Модель:</p> 
-        <p>@Html.TextBoxFor(x => x.CarModel, new { style="width:176px;" })</p>
-        <p>Цена:</p> 
-        <p>от @Html.TextBoxFor(x => x.CarPriceLow, new { style="width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style="width:59px;" })</p>      
-        <p>Год:</p> 
-        <p>от @Html.TextBoxFor(x => x.CarYearLow, new { style="width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style="width:59px;" }) </p>
-        <input style="width:176px;" type="submit" value="Search" />
-        </div> 
-        
+            <p>Марка:</p>
+            <p>@Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })</p>
+            <p>Модель:</p>
+            <p>@Html.TextBoxFor(x => x.CarModel, new { style = "width:176px;" })</p>
+            <p>Цена:</p>
+            <p>от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })</p>
+            <p>Год:</p>
+            <p>от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
+            <input style="width:176px;" type="submit" value="Search" />
+        </div>
+
     }
 </body>
 </html>
