@@ -45,7 +45,7 @@
                         @Html.ValidationSummary()
                         <h2><font face="Arial">Выберите параметры желаемого авто:</font></h2>
                         <p align="center">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })</p>
-                        <p align="center">Модель: @Html.TextBoxFor(x => x.CarModel, new { style = "width:176px;" })</p>
+                        <p align="center">Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>
                         <p align="center">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })</p>
                         <p align="center">Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
                         <input style="width:176px;" type="submit" value="Искать" />

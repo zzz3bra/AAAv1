@@ -7,12 +7,13 @@ namespace AAAv1.Models
 {
     public class CarAd
     {
-        public string Mark { get; set; }
+        public string Manufacturer { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
         public int Price { get; set; }
-        public int? OnlinerID { get; set; }
-        public int? AnotherSiteID { get; set; }
+        public int? OnlinerAdID { get; set; }
+        public int? AnotherSiteAdID { get; set; }
+        public int InternalAdId { get; set; }
         public string URLAddress { get; set; }
     }
 }

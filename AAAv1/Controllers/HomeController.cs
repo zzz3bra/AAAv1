@@ -28,8 +28,8 @@ namespace AAAv1.Controllers
                         .Select(x =>
                                 new SelectListItem
                                 {
-                                    Value = x.Key.OnlinerID.ToString(),
-                                    Text = x.Key.Name
+                                    Value = x.Value.OnlinerID.ToString(),
+                                    Text = x.Key
                                 });
             return new SelectList(roles, "Value", "Text");
         }
@@ -37,9 +37,9 @@ namespace AAAv1.Controllers
         [HttpGet]
         public ViewResult CarForm()
         {
-            FilteredCars filter = new FilteredCars();
-            filter.CarManufacturers = GetInfo();
-            return View(filter);
+            FilteredCars searcher = new FilteredCars();
+            searcher.CarManufacturers = GetInfo();
+            return View(searcher);
         }
 
         [HttpPost]
