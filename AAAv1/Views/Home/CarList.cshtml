@@ -12,22 +12,28 @@
     <title>CarList</title>
 </head>
 <body>
-    @*//TODO: make this page beautiful*@
-    <table class="table">
+    <style>
+        Body {
+            background-color: azure;
+        }
+    </style>
+    <table align="center" width="1000px" border="0" cellspacing="1" bgcolor="white">
         <tr>
-            <th>
-                Mark
-            </th>
-            <th>
-                Model
-            </th>
-            <th>
-                Year
-            </th>
-            <th>
-                Price
-            </th>
-            <th></th>
+            <td align="center" width="100px" height="30px">
+                <h3>Mark</h3>
+            </td>
+            <td align="center" width="100px" height="30px">
+                <h3>Model</h3>
+            </td>
+            <td align="center" width="100px" height="30px">
+                <h3>Year</h3>
+            </td>
+            <td align="center" width="100px" height="30px">
+                <h3>Price</h3>
+            </td>
+            <td align="center" width="600px" height="30px">
+                <h3>Description</h3>
+            </>
         </tr>
 
         @foreach (var item in Model.CarList)
@@ -35,19 +41,19 @@
             if (item != null)
             {
                 <tr>
-                    <td>
+                    <td align="center">
                         @Html.DisplayFor(modelItem => item.Mark)
                     </td>
-                    <td>
+                    <td align="center">
                         @Html.DisplayFor(modelItem => item.Model)
                     </td>
-                    <td>
+                    <td align="center">
                         @Html.DisplayFor(modelItem => item.Year)
                     </td>
-                    <td>
+                    <td align="center">
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
-                    <td>
+                    <td align="center">
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     </td>
                 </tr>

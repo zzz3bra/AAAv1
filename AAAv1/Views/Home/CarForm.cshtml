@@ -24,20 +24,13 @@
         @using (Html.BeginForm())
         {
             <table align="center" width="1000px" border="0" cellspacing="1">
-                <tr>
-                    <td align="left" width="333px" height="40px">
-                        <a href="Index.cshtml">На главную</a>
-                    </td>
-                    <td align="center" width="333px" height="40px">
+                <tr>                    
+                    <td align="center" width="1000px" height="40px">
                         <h1><font face="Arial">Поиск авто</font></h1>
-                    </td>
-                    <td align="right" width="333px" height="40px">
-                        <p>Логин</p>
-                        <p>Пароль</p>
-                    </td>
+                    </td>                    
                 </tr>
                 <tr>
-                    <td colspan="3" align="center" width="1000px" height="275px" background="\Content\Images\7series-2015-a.jpg"></td>
+                    <td colspan="2" align="center" width="1000px" height="275px" background="\Content\Images\7series-2015-a.jpg"></td>
                 </tr>
                 <tr>
                     <td align="center" width="260px" height="300px" bgcolor="white">
@@ -50,8 +43,27 @@
                         <p align="center">Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
                         <input style="width:176px;" type="submit" value="Искать" />
                     </td>
-                    <td align="center" width="370px" height="300px" bgcolor="white">главная лента вип-объявлений</td>
-                    <td align="center" width="370px" height="300px" bgcolor="white">заметки пользователя</td>
+                    <td align="center" width="740px" height="30px" bgcolor="white">
+                        <table align="center" width="740px" border="0" cellspacing="1" bgcolor="white">
+                            <tr>
+                                <td align="center" width="70px" height="10px">
+                                    <h5>Мark</h5>
+                                </td>
+                                <td align="center" width="70px" height="10px">
+                                    <h5>Model</h5>
+                                </td>
+                                <td align="center" width="70px" height="10px">
+                                    <h5>Year</h5>
+                                </td>
+                                <td align="center" width="70px" height="10px">
+                                    <h5>Price</h5>
+                                </td>
+                                <td align="center" width="460px" height="10px">
+                                    <h5>Description</h5>
+                                </td>
+                            </tr>   
+                        </table>
+                    </td>                    
                 </tr>
             </table>
         }
