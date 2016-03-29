@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TestParsingForKYPCA4
+namespace AAAv1.Models
 {
     class SuperParser
     {

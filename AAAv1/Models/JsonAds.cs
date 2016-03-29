@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TestParsingForKYPCA4
+namespace AAAv1.Models
 {
     public class JsonAds
     {
