@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\..\..\..\Программирование\Библиотеки C#\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -142,11 +145,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AWby.cs" />
     <Compile Include="Models\CarAd.cs" />
     <Compile Include="Models\FilteredCars.cs" />
     <Compile Include="Models\FilteredCarsAttribute.cs" />
-    <Compile Include="Models\JsonAds.cs" />
-    <Compile Include="Models\SuperParser.cs" />
+    <Compile Include="Models\ADS.cs" />
+    <Compile Include="Models\GetDataOfCar.cs" />
+    <Compile Include="Models\IInformCreator.cs" />
+    <Compile Include="Models\Onliner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

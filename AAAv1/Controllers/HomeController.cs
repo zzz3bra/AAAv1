@@ -24,10 +24,10 @@ namespace AAAv1.Controllers
         }
 
 
-        public List<JsonAds> GetCarList()
+        public List<ADS> GetCarList()
         {
-            SuperParser Parser = new SuperParser("");
-            List<JsonAds> ads = Parser.GetAdsOnliner();
+            GetDataOfCar Parser = new GetDataOfCar();
+            List<ADS> ads = Parser.GetADS("");
             return ads;
         }
 

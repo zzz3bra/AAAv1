@@ -38,7 +38,7 @@ namespace AAAv1.Models
                 this.AnotherSiteID = AnotherSiteID;
             }
         }
-        public List<JsonAds> ads { get; set; }
+        public List<ADS> ads { get; set; }
         public static Dictionary<string, Manufacturer> Manufacturers
         {
             get; private set;

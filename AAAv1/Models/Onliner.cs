@@ -1,48 +1,30 @@
-﻿using System;
-using System.Text;
-using System.Net;
-using System.IO;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
 
 namespace AAAv1.Models
 {
-    class SuperParser
+    public class Onliner
     {
-        private string _dataonliner = "";
+        private string _data = "";
 
-        public SuperParser(string data_onliner)
+        public List<ADS> DataParse(string searchData)
         {
-            _dataonliner = data_onliner;
+            return GetAdsOnliner();
         }
 
-        public List<JsonAds> GetAdsOnliner()
-        {
-            var j = JObject.Parse(Post_Onliner(_dataonliner));
-            var q = j["result"]["advertisements"].ToList();
-
-
-            List<JsonAds> searchResults = new List<JsonAds>();
-            foreach (JToken result in q)
-            {
-                JsonAds searchResult = JsonConvert.DeserializeObject<JsonAds>(result.First.ToString());
-                searchResults.Add(searchResult);
-            }
-
-
-            //return ConvertToNormalADS.ConvADS(searchResults); // НЕ ТРОГАТЬ!!! ПОТОМ ЗАРАБОТАЕТ!!!
-            return searchResults;
-        }
-
-        private string Post_Onliner(string data)
+        private string PostRequest()
         {
             WebRequest req = WebRequest.Create(@"http://ab.onliner.by/search#");
             req.Method = "POST";
             req.Timeout = 100000;
             req.ContentType = "application/x-www-form-urlencoded";
-            byte[] sentData = Encoding.GetEncoding(1251).GetBytes(data);
+            byte[] sentData = Encoding.GetEncoding(1251).GetBytes(_data);
             req.ContentLength = sentData.Length;
             Stream sendStream = req.GetRequestStream();
             sendStream.Write(sentData, 0, sentData.Length);
@@ -61,6 +43,20 @@ namespace AAAv1.Models
             }
             return Out;
         }
+
+        private List<ADS> GetAdsOnliner()
+        {
+            var ads = JObject.Parse(PostRequest())["result"]["advertisements"].ToList();
+
+            List<ADS> searchResults = new List<ADS>();
+
+            foreach (JToken result in ads)
+            {
+                ADS searchResult = JsonConvert.DeserializeObject<ADS>(result.First.ToString());
+                searchResults.Add(searchResult);
+            }
+
+            return searchResults;
+        }
     }
 }
-

@@ -2,7 +2,7 @@
 
 namespace AAAv1.Models
 {
-    public class JsonAds
+    public class ADS
     {
         public long Id { get; set; }
         public string Title { get; set; }
