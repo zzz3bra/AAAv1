@@ -15,17 +15,18 @@
 <body>
     <style>
         Body {
-            background-color: azure;
+            background: linear-gradient(45deg, #000, #fff);               
         }
     </style>
-
+    
 
     <center>
+        
         @using (Html.BeginForm())
         {
-            <table align="center" width="1000px" border="0" cellspacing="1">
+            <table align="center" width="1000px" border="0" cellspacing="10">
                 <tr>                    
-                    <td align="center" width="1000px" height="40px">
+                    <td colspan="2" align="center" width="1000px" height="40px">
                         <h1><font face="Arial">Поиск авто</font></h1>
                     </td>                    
                 </tr>
@@ -33,40 +34,56 @@
                     <td colspan="2" align="center" width="1000px" height="275px" background="\Content\Images\7series-2015-a.jpg"></td>
                 </tr>
                 <tr>
-                    <td align="center" width="260px" height="300px" bgcolor="white">
-
-                        @Html.ValidationSummary()
+                    <td colspan="2" align="center" width="1000px">
                         <h2><font face="Arial">Выберите параметры желаемого авто:</font></h2>
-                        <p align="center">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })</p>
-                        <p align="center">Модель: @Html.TextBoxFor(x => x.CarModel, new { style = "width:176px;" })</p>
-                        <p align="center">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })</p>
-                        <p align="center">Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="500px" height="70px">
+                        @Html.ValidationSummary()                        
+                        <p align="right">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })    </p>                       
+                        <p align="right">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })    </p>                       
+                    </td>
+                    <td align="left" width="500px" height="70px">
+                        @Html.ValidationSummary()                   
+                        <p align="left">    Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>                        
+                        <p align="left">    Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>                       
+                    </td>           
+                </tr>
+                <tr align="center" width="1000px" height="30px">
+                    <td colspan="2">
+                        @Html.ValidationSummary() 
                         <input style="width:176px;" type="submit" value="Искать" />
                     </td>
-                    <td align="center" width="740px" height="30px" bgcolor="white">
-                        <table align="center" width="740px" border="0" cellspacing="1" bgcolor="white">
-                            <tr>
-                                <td align="center" width="70px" height="10px">
-                                    <h5>Мark</h5>
-                                </td>
-                                <td align="center" width="70px" height="10px">
-                                    <h5>Model</h5>
-                                </td>
-                                <td align="center" width="70px" height="10px">
-                                    <h5>Year</h5>
-                                </td>
-                                <td align="center" width="70px" height="10px">
-                                    <h5>Price</h5>
-                                </td>
-                                <td align="center" width="460px" height="10px">
-                                    <h5>Description</h5>
-                                </td>
-                            </tr>   
-                        </table>
-                    </td>                    
                 </tr>
-            </table>
-        }
-    </center>
+            </table>        
+            
+            foreach (var item in Model.ads)
+        {
+            if (item != null)
+            {
+                <br/>
+                <tr>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Car.Model.ManufacturerName)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Car.Model.Name)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Car.Year)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Car.OdometerState)
+                    </td>
+                    <td align="center">
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    </td>
+                </tr>
+            }
+        }      
+        }            
+        </center>   
+    
 </body>
 </html>

@@ -26,30 +26,44 @@ namespace AAAv1.Models
         }
         public class Model
         {
+            public int? InternalID { get; private set; }
             public int? OnlinerID { get; private set; }
             public int? AnotherSiteID { get; private set; }
             public string Name { get; private set; }
+            public Model(string Name, int? InternalID, int? OnlinerID, int? AnotherSiteID)
+            {
+                this.Name = Name;
+                this.InternalID = InternalID;
+                this.OnlinerID = OnlinerID;
+                this.AnotherSiteID = AnotherSiteID;
+            }
         }
-        public static Dictionary<Manufacturer, string> Manufacturers
+        public List<JsonAds> ads { get; set; }
+        public static Dictionary<string, Manufacturer> Manufacturers
         {
             get; private set;
         }
-        public static Dictionary<Manufacturer, Model[]> Models
+        public static Dictionary<int, Model[]> Models
         {
             get; private set;
         }
         static FilteredCars()
         {
-            Manufacturers = new Dictionary<Manufacturer, string>();
-            Manufacturer empty = new Manufacturer("", null, null, null);
+            Manufacturers = new Dictionary<string, Manufacturer>();
+            Models = new Dictionary<int, Model[]>();
+            Manufacturer empty = new Manufacturer("", 0, 0, null);
             Manufacturer honda = new Manufacturer("Honda", 1, 1, null);
             Manufacturer acura = new Manufacturer("Acura", 2, 2, null);
             Manufacturer bmw = new Manufacturer("BMW", 3, 3, null);
-            Manufacturers.Add(empty, empty.Name);
-            Manufacturers.Add(honda, honda.Name);
-            Manufacturers.Add(acura, acura.Name);
-            Manufacturers.Add(bmw, bmw.Name);
-            //Initializing lists, etc
+            Manufacturers.Add(empty.Name, empty);
+            Models.Add(empty.OnlinerID.Value, new Model[1] { new Model(" ", 0, 0, 0) });
+            Manufacturers.Add(honda.Name, honda);
+            Models.Add(honda.OnlinerID.Value, new Model[3] { new Model("Civic", 0, 0, 0), new Model("Vshivik", 1, 1, 1), new Model("S2000", 2, 2, 2) });
+            Manufacturers.Add(acura.Name, acura);
+            Models.Add(acura.OnlinerID.Value, new Model[2] { new Model("Sakura", 0, 0, 0), new Model("NSX", 1, 1, 1) });
+            Manufacturers.Add(bmw.Name, bmw);
+            Models.Add(bmw.OnlinerID.Value, new Model[2] { new Model("318s", 0, 0, 0), new Model("520", 1, 1, 1) });
+            //Initializing model lists, etc
         }
         //TODO: Adapt enum for our victim site, maybe split it for different sites to different classes
         public enum CarMarkListOnliner
@@ -57,9 +71,8 @@ namespace AAAv1.Models
             Empty, Honda, Acura, BMW
         }
         public string SelectedCarManufacturerID { get; set; }
-        public Manufacturer SelectedCarManufacturer { get; set; }
+        public string SelectedCarModelID { get; set; }
         public IEnumerable<SelectListItem> CarManufacturers { get; set; }
-        public Model CarModel { get; set; }
         public int? CarYearLow { get; set; }
         public int? CarYearHigh { get; set; }
         public int? CarPriceLow { get; set; }
@@ -67,6 +80,7 @@ namespace AAAv1.Models
         public CarAd[] CarList { get; private set; }
         public void GetCars()
         {
+            //Here to be called ad grabber
             FillCars();
             FilterCars();
         }
@@ -79,7 +93,7 @@ namespace AAAv1.Models
                 {
                     if (CarList[i] != null)
                     {
-                        if (SelectedCarManufacturerID != CarList[i].OnlinerID.ToString())
+                        if (SelectedCarManufacturerID != Manufacturers[CarList[i].Manufacturer].OnlinerID.ToString())
                         {
                             CarList[i] = null;
                         }
@@ -88,23 +102,117 @@ namespace AAAv1.Models
             }
             #endregion
             #region Model
-            //TODO: filter by model
+            if (!string.IsNullOrEmpty(SelectedCarModelID))
+            {
+                for (int i = 0; i < CarList.Length; i++)
+                {
+                    if (CarList[i] != null)
+                    {
+                        if (SelectedCarModelID != Models[int.Parse(SelectedCarManufacturerID)][int.Parse(SelectedCarModelID)].OnlinerID.ToString())
+                        {
+                            CarList[i] = null;
+                        }
+                    }
+                }
+            }
             #endregion
             #region Year
-            //TODO: filter by year
+            if (CarYearHigh != null)
+            {
+                if (CarYearLow != null)
+                {
+                    for (int i = 0; i < CarList.Length; i++)
+                    {
+                        if (CarList[i] != null)
+                        {
+                            if (CarYearHigh < CarList[i].Year && CarYearLow > CarList[i].Year)
+                            {
+                                CarList[i] = null;
+                            }
+                        }
+                    }
+                }
+                else {
+                    for (int i = 0; i < CarList.Length; i++)
+                    {
+                        if (CarList[i] != null)
+                        {
+                            if (CarYearHigh < CarList[i].Year)
+                            {
+                                CarList[i] = null;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (CarYearLow != null)
+            {
+                for (int i = 0; i < CarList.Length; i++)
+                {
+                    if (CarList[i] != null)
+                    {
+                        if (CarYearLow > CarList[i].Year)
+                        {
+                            CarList[i] = null;
+                        }
+                    }
+                }
+            }
             #endregion
             #region Price
-            //TODO: filter by price
+            if (CarPriceHigh != null)
+            {
+                if (CarPriceLow != null)
+                {
+                    for (int i = 0; i < CarList.Length; i++)
+                    {
+                        if (CarList[i] != null)
+                        {
+                            if (CarPriceHigh < CarList[i].Price && CarPriceLow > CarList[i].Price)
+                            {
+                                CarList[i] = null;
+                            }
+                        }
+                    }
+                }
+                else {
+                    for (int i = 0; i < CarList.Length; i++)
+                    {
+                        if (CarList[i] != null)
+                        {
+                            if (CarPriceHigh < CarList[i].Price)
+                            {
+                                CarList[i] = null;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (CarPriceLow != null)
+            {
+                for (int i = 0; i < CarList.Length; i++)
+                {
+                    if (CarList[i] != null)
+                    {
+                        if (CarPriceLow > CarList[i].Price)
+                        {
+                            CarList[i] = null;
+                        }
+                    }
+                }
+            }
             #endregion
+            CarList = CarList.Where(c => c != null).ToArray();
         }
         private void FillCars()
         {
             List<CarAd> cars = new List<CarAd>();
 #if DEBUG
             #region Debug list
-            cars.Add(new CarAd() { Mark = Enum.GetName(typeof(CarMarkListOnliner), 1), Model = "civka", Year = 1488, Price = 3700, OnlinerID = 1 });
-            cars.Add(new CarAd() { Mark = Enum.GetName(typeof(CarMarkListOnliner), 3), Model = "318s", Year = 2008, Price = 37000, OnlinerID = 3 });
-            cars.Add(new CarAd() { Mark = Enum.GetName(typeof(CarMarkListOnliner), 2), Model = "v8", Year = 1988, Price = 3700, OnlinerID = 2 });
+            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 1), Model = "Civic", Year = 1488, Price = 3700 });
+            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 3), Model = "318s", Year = 2008, Price = 37000 });
+            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 3), Model = "520", Year = 1998, Price = 3700 });
+            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 2), Model = "NSX", Year = 1988, Price = 9700 });
             #endregion
 #else
             #region Release list
