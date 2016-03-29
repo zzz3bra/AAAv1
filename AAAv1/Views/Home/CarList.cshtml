@@ -14,24 +14,25 @@
 <body>
     <style>
         Body {
-            background-color: azure;
+            background: linear-gradient(45deg, #000, #fff);
+            background-repeat: no-repeat;
         }
     </style>
-    <table align="center" width="1000px" border="0" cellspacing="1" bgcolor="white">
+    <table align="center" width="1000px" border="0" cellspacing="10">
         <tr>
-            <td align="center" width="100px" height="30px">
+            <td align="center" width="100px">
                 <h3>Mark</h3>
             </td>
-            <td align="center" width="100px" height="30px">
+            <td align="center" width="100px">
                 <h3>Model</h3>
             </td>
-            <td align="center" width="100px" height="30px">
+            <td align="center" width="100px">
                 <h3>Year</h3>
             </td>
-            <td align="center" width="100px" height="30px">
+            <td align="center" width="100px">
                 <h3>Price</h3>
             </td>
-            <td align="center" width="600px" height="30px">
+            <td align="center" width="600px">
                 <h3>Description</h3>
             </>
         </tr>
@@ -41,13 +42,8 @@
             if (item != null)
             {
                 <tr>
-<<<<<<< HEAD
                     <td align="center">
-                        @Html.DisplayFor(modelItem => item.Mark)
-=======
-                    <td>
                         @Html.DisplayFor(modelItem => item.Manufacturer)
->>>>>>> origin/master
                     </td>
                     <td align="center">
                         @Html.DisplayFor(modelItem => item.Model)
