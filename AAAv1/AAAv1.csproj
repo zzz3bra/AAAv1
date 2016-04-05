@@ -153,7 +153,10 @@
     <Compile Include="Models\ADS.cs" />
     <Compile Include="Models\GetDataOfCar.cs" />
     <Compile Include="Models\IInformCreator.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Onliner.cs" />
+    <Compile Include="Models\UserBase.cs" />
+    <Compile Include="Models\UserRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
