@@ -11,7 +11,7 @@ namespace AAAv1.Models
     }
 
     public class Car
-    { 
+    {
         public Model Model { get; set; }
         public string Modification { get; set; }
         public string OdometerState { get; set; } // Пробег
@@ -21,6 +21,7 @@ namespace AAAv1.Models
         public string Fuel { get; set; }
         public string Transmission { get; set; }
         public string Drivetrain { get; set; } // Привод
+        public string Price { get; set; }
     }
 
     public class Model

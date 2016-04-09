@@ -10,107 +10,95 @@ namespace AAAv1.Models
     [FilteredCars]
     public class FilteredCars
     {
-        public class Manufacturer
-        {
-            public int? InternalID { get; private set; }
-            public int? OnlinerID { get; private set; }
-            public int? AnotherSiteID { get; private set; }
-            public string Name { get; private set; }
-            public Manufacturer(string Name, int? InternalID, int? OnlinerID, int? AnotherSiteID)
-            {
-                this.Name = Name;
-                this.InternalID = InternalID;
-                this.OnlinerID = OnlinerID;
-                this.AnotherSiteID = AnotherSiteID;
-            }
-        }
-        public class Model
-        {
-            public int? InternalID { get; private set; }
-            public int? OnlinerID { get; private set; }
-            public int? AnotherSiteID { get; private set; }
-            public string Name { get; private set; }
-            public Model(string Name, int? InternalID, int? OnlinerID, int? AnotherSiteID)
-            {
-                this.Name = Name;
-                this.InternalID = InternalID;
-                this.OnlinerID = OnlinerID;
-                this.AnotherSiteID = AnotherSiteID;
-            }
-        }
         public List<ADS> ads { get; set; }
-        public static Dictionary<string, Manufacturer> Manufacturers
+        public List<string> Manufacturers
         {
             get; private set;
         }
-        public static Dictionary<int, Model[]> Models
+        public Dictionary<string, string[]> Models
         {
             get; private set;
         }
-        static FilteredCars()
+        public FilteredCars()
         {
-            Manufacturers = new Dictionary<string, Manufacturer>();
-            Models = new Dictionary<int, Model[]>();
-            Manufacturer empty = new Manufacturer("", 0, 0, null);
-            Manufacturer honda = new Manufacturer("Honda", 1, 1, null);
-            Manufacturer acura = new Manufacturer("Acura", 2, 2, null);
-            Manufacturer bmw = new Manufacturer("BMW", 3, 3, null);
-            Manufacturers.Add(empty.Name, empty);
-            Models.Add(empty.OnlinerID.Value, new Model[1] { new Model(" ", 0, 0, 0) });
-            Manufacturers.Add(honda.Name, honda);
-            Models.Add(honda.OnlinerID.Value, new Model[3] { new Model("Civic", 0, 0, 0), new Model("Vshivik", 1, 1, 1), new Model("S2000", 2, 2, 2) });
-            Manufacturers.Add(acura.Name, acura);
-            Models.Add(acura.OnlinerID.Value, new Model[2] { new Model("Sakura", 0, 0, 0), new Model("NSX", 1, 1, 1) });
-            Manufacturers.Add(bmw.Name, bmw);
-            Models.Add(bmw.OnlinerID.Value, new Model[2] { new Model("318s", 0, 0, 0), new Model("520", 1, 1, 1) });
-            //Initializing model lists, etc
+            Manufacturers = new List<string>();
+            Models = new Dictionary<string, string[]>();
+            Manufacturers.Add("Honda");
+            Manufacturers.Add("BMW");
+            Manufacturers.Add("Nissan");
+            Manufacturers.Add("Audi");
+            Manufacturers.Add("Volkswagen");
+            Manufacturers.Add("Mercedes");
+            Manufacturers.Add("Lexus");
+            Manufacturers.Add("Mitsubishi");
+            Manufacturers.Add("Hyundai");
+            Manufacturers.Add("Fiat");
+            Manufacturers.Add("Renault");
+            Manufacturers.Add("Espace");
+            Manufacturers.Add("Acura");
+            Manufacturers.Add("Land");
+            Manufacturers.Add("Range");
+            Manufacturers.Add("Evoque");
+            Manufacturers.Add("Opel");
+            Manufacturers.Add("Chrysler");
+            Manufacturers.Add("Mazda");
+            Manufacturers.Add("Subaru");
+            Manufacturers.Add("Chevrolet");
+            Manufacturers.Add("Chery");
+            Manufacturers.Add("Toyota");
+            Manufacturers.Add("Geely");
+            Manufacturers.Add("Peugeot");
+            Manufacturers.Add("Skoda");
+            Manufacturers.Add("Caravelle");
+            Manufacturers.Add("Citroen");
+            Manufacturers.Add("Cadillac");
+            Models.Add("Honda", new string[3] { "Civic", "Vshivik", "S2000" });
+            Models.Add("Acura", new string[2] { "Sakura", "Figura" });
+            Models.Add("BMW", new string[6] { "318s", "520", "550", "X3", "X5", "X6" });
+            Manufacturers.Sort();
         }
-        //TODO: Adapt enum for our victim site, maybe split it for different sites to different classes
         public enum CarMarkListOnliner
         {
             Empty, Honda, Acura, BMW
         }
-        public string SelectedCarManufacturerID { get; set; }
-        public string SelectedCarModelID { get; set; }
-        public IEnumerable<SelectListItem> CarManufacturers { get; set; }
+        public string SelectedCarManufacturer { get; set; }
+        public string SelectedCarModel { get; set; }
         public int? CarYearLow { get; set; }
         public int? CarYearHigh { get; set; }
         public int? CarPriceLow { get; set; }
         public int? CarPriceHigh { get; set; }
-        public CarAd[] CarList { get; private set; }
         public void GetCars()
         {
-            //Here to be called ad grabber
             FillCars();
             FilterCars();
         }
         public void FilterCars()
         {
             #region Mark
-            if (!string.IsNullOrEmpty(SelectedCarManufacturerID))
+            if (!string.IsNullOrEmpty(SelectedCarManufacturer))
             {
-                for (int i = 0; i < CarList.Length; i++)
+                for (int i = 0; i < ads.Count; i++)
                 {
-                    if (CarList[i] != null)
+                    if (ads[i] != null)
                     {
-                        if (SelectedCarManufacturerID != Manufacturers[CarList[i].Manufacturer].OnlinerID.ToString())
+                        if (SelectedCarManufacturer != ads[i].Car.Model.ManufacturerName)
                         {
-                            CarList[i] = null;
+                            ads[i] = null;
                         }
                     }
                 }
             }
             #endregion
             #region Model
-            if (!string.IsNullOrEmpty(SelectedCarModelID))
+            if (!string.IsNullOrEmpty(SelectedCarModel))
             {
-                for (int i = 0; i < CarList.Length; i++)
+                for (int i = 0; i < ads.Count; i++)
                 {
-                    if (CarList[i] != null)
+                    if (ads[i] != null)
                     {
-                        if (SelectedCarModelID != Models[int.Parse(SelectedCarManufacturerID)][int.Parse(SelectedCarModelID)].OnlinerID.ToString())
+                        if (SelectedCarModel != ads[i].Car.Model.Name)
                         {
-                            CarList[i] = null;
+                            ads[i] = null;
                         }
                     }
                 }
@@ -121,25 +109,25 @@ namespace AAAv1.Models
             {
                 if (CarYearLow != null)
                 {
-                    for (int i = 0; i < CarList.Length; i++)
+                    for (int i = 0; i < ads.Count; i++)
                     {
-                        if (CarList[i] != null)
+                        if (ads[i] != null)
                         {
-                            if (CarYearHigh < CarList[i].Year && CarYearLow > CarList[i].Year)
+                            if (CarYearHigh < int.Parse(ads[i].Car.Year) && CarYearLow > int.Parse(ads[i].Car.Year))
                             {
-                                CarList[i] = null;
+                                ads[i] = null;
                             }
                         }
                     }
                 }
                 else {
-                    for (int i = 0; i < CarList.Length; i++)
+                    for (int i = 0; i < ads.Count; i++)
                     {
-                        if (CarList[i] != null)
+                        if (ads[i] != null)
                         {
-                            if (CarYearHigh < CarList[i].Year)
+                            if (CarYearHigh < int.Parse(ads[i].Car.Year))
                             {
-                                CarList[i] = null;
+                                ads[i] = null;
                             }
                         }
                     }
@@ -147,13 +135,13 @@ namespace AAAv1.Models
             }
             else if (CarYearLow != null)
             {
-                for (int i = 0; i < CarList.Length; i++)
+                for (int i = 0; i < ads.Count; i++)
                 {
-                    if (CarList[i] != null)
+                    if (ads[i] != null)
                     {
-                        if (CarYearLow > CarList[i].Year)
+                        if (CarYearLow > int.Parse(ads[i].Car.Year))
                         {
-                            CarList[i] = null;
+                            ads[i] = null;
                         }
                     }
                 }
@@ -164,25 +152,25 @@ namespace AAAv1.Models
             {
                 if (CarPriceLow != null)
                 {
-                    for (int i = 0; i < CarList.Length; i++)
+                    for (int i = 0; i < ads.Count; i++)
                     {
-                        if (CarList[i] != null)
+                        if (ads[i] != null)
                         {
-                            if (CarPriceHigh < CarList[i].Price && CarPriceLow > CarList[i].Price)
+                            if (CarPriceHigh < int.Parse(ads[i].Car.Price) && CarPriceLow > int.Parse(ads[i].Car.Price))
                             {
-                                CarList[i] = null;
+                                ads[i] = null;
                             }
                         }
                     }
                 }
                 else {
-                    for (int i = 0; i < CarList.Length; i++)
+                    for (int i = 0; i < ads.Count; i++)
                     {
-                        if (CarList[i] != null)
+                        if (ads[i] != null)
                         {
-                            if (CarPriceHigh < CarList[i].Price)
+                            if (CarPriceHigh < int.Parse(ads[i].Car.Price))
                             {
-                                CarList[i] = null;
+                                ads[i] = null;
                             }
                         }
                     }
@@ -190,37 +178,33 @@ namespace AAAv1.Models
             }
             else if (CarPriceLow != null)
             {
-                for (int i = 0; i < CarList.Length; i++)
+                for (int i = 0; i < ads.Count; i++)
                 {
-                    if (CarList[i] != null)
+                    if (ads[i] != null)
                     {
-                        if (CarPriceLow > CarList[i].Price)
+                        if (CarPriceLow > int.Parse(ads[i].Car.Price))
                         {
-                            CarList[i] = null;
+                            ads[i] = null;
                         }
                     }
                 }
             }
             #endregion
-            CarList = CarList.Where(c => c != null).ToArray();
+            ads.RemoveAll(item => item == null);
         }
         private void FillCars()
         {
-            List<CarAd> cars = new List<CarAd>();
+            GetDataOfCar Parser = new GetDataOfCar();
+            ads = Parser.GetADS("");
 #if DEBUG
             #region Debug list
-            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 1), Model = "Civic", Year = 1488, Price = 3700 });
-            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 3), Model = "318s", Year = 2008, Price = 37000 });
-            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 3), Model = "520", Year = 1998, Price = 3700 });
-            cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 2), Model = "NSX", Year = 1988, Price = 9700 });
+            //cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 1), Model = "Civic", Year = 1488, Price = 3700 });
             #endregion
 #else
             #region Release list
-            //TODO: some JSON parsing and data grabbing
-            cars.Add(new CarAd() { Mark = "release", Model = "final", Year = 2016, Price = int.MaxValue });
+            //cars.Add(new CarAd() { Mark = "release", Model = "final", Year = 2016, Price = int.MaxValue });
             #endregion
 #endif
-            CarList = cars.ToArray();
         }
     }
 }

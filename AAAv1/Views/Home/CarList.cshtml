@@ -30,32 +30,33 @@
                 <h3>Year</h3>
             </td>
             <td align="center" width="100px">
-                <h3>Price</h3>
+                <h3>Odometer</h3>
             </td>
             <td align="center" width="600px">
                 <h3>Description</h3>
-            </>
+                </>
         </tr>
 
-        @foreach (var item in Model.CarList)
+        @foreach (var item in Model.ads)
         {
             if (item != null)
             {
                 <tr>
                     <td align="center">
-                        @Html.DisplayFor(modelItem => item.Manufacturer)
+                        @Html.DisplayFor(modelItem => item.Car.Model.ManufacturerName)
                     </td>
                     <td align="center">
-                        @Html.DisplayFor(modelItem => item.Model)
+                        @Html.DisplayFor(modelItem => item.Car.Model.Name)
                     </td>
                     <td align="center">
-                        @Html.DisplayFor(modelItem => item.Year)
+                        @Html.DisplayFor(modelItem => item.Car.Year)
                     </td>
                     <td align="center">
-                        @Html.DisplayFor(modelItem => item.Price)
+                        @Html.DisplayFor(modelItem => item.Car.OdometerState)
                     </td>
                     <td align="center">
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
+                        <a href="@("http://ab.onliner.by/car/"+item.Id)">Details</a>
                     </td>
                 </tr>
             }

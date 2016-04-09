@@ -22,34 +22,10 @@ namespace AAAv1.Controllers
             return RedirectPermanent("/Home/CarForm");
         }
 
-
-        public List<ADS> GetCarList()
-        {
-            GetDataOfCar Parser = new GetDataOfCar();
-            List<ADS> ads = Parser.GetADS("");
-            return ads;
-        }
-
-        private IEnumerable<SelectListItem> GetInfo()
-        {
-            var roles = FilteredCars
-                .Manufacturers
-                        .Select(x =>
-                                new SelectListItem
-                                {
-                                    Value = x.Value.OnlinerID.ToString(),
-                                    Text = x.Key
-                                });
-            return new SelectList(roles, "Value", "Text");
-        }        
-       
-
         [HttpGet]
         public ViewResult CarForm()
         {
             FilteredCars searcher = new FilteredCars();
-            searcher.CarManufacturers = GetInfo();
-            searcher.ads = GetCarList();
             return View(searcher);
         }
 
@@ -64,7 +40,6 @@ namespace AAAv1.Controllers
             else
             {
                 FilteredCars filter = new FilteredCars();
-                filter.CarManufacturers = GetInfo();
                 return View(filter);
             }
         }

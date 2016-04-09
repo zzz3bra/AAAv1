@@ -15,20 +15,18 @@
 <body>
     <style>
         Body {
-            background: linear-gradient(45deg, #000, #fff);               
+            background: linear-gradient(45deg, #000, #fff);
         }
     </style>
-    
 
     <center>
-        
         @using (Html.BeginForm())
         {
             <table align="center" width="1000px" border="0" cellspacing="10">
-                <tr>                    
+                <tr>
                     <td colspan="2" align="center" width="1000px" height="40px">
                         <h1><font face="Arial">Поиск авто</font></h1>
-                    </td>                    
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center" width="1000px" height="275px" background="\Content\Images\7series-2015-a.jpg"></td>
@@ -40,50 +38,59 @@
                 </tr>
                 <tr>
                     <td align="right" width="500px" height="70px">
-                        @Html.ValidationSummary()                        
-                        <p align="right">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })    </p>                       
-                        <p align="right">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })    </p>                       
+                        @Html.ValidationSummary()
+                        <select id="SelectedCarManufacturer" name="SelectedCarManufacturer">
+                            <option value=""></option>
+                            @foreach (var item in Model.Manufacturers)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                        <select id="SelectedCarModel" name="SelectedCarModel" disabled="">
+                            <option value="" class=""></option>
+                            @foreach (var manuf in Model.Manufacturers)
+                            {
+                                if (!string.IsNullOrEmpty(manuf) && Model.Models.ContainsKey(manuf))
+                                {
+                                    foreach (var car in Model.Models[manuf])
+                                    {
+                                        <option value="@car" class="@manuf">@car</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        @*<select id="model" name="model" disabled="">
+                                <option value="">--</option>
+                            </select>
+                            <select id="engine" name="engine" disabled="">
+                                <option value="">--</option>
+                            </select>*@
+                        @*<p align="right">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })    </p>*@
+                        <p align="right">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })    </p>
                     </td>
                     <td align="left" width="500px" height="70px">
-                        @Html.ValidationSummary()                   
-                        <p align="left">    Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>                        
-                        <p align="left">    Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>                       
-                    </td>           
+                        @Html.ValidationSummary()
+                        @*<p align="left">    Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>*@
+                        <p align="left">    Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
+                    </td>
                 </tr>
                 <tr align="center" width="1000px" height="30px">
                     <td colspan="2">
-                        @Html.ValidationSummary() 
+                        @Html.ValidationSummary()
                         <input style="width:176px;" type="submit" value="Искать" />
                     </td>
                 </tr>
-            </table>        
-            
-            foreach (var item in Model.ads)
-        {
-            if (item != null)
-            {
-                <br/>
-                <tr>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Model.ManufacturerName)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Model.Name)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Year)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.OdometerState)
-                    </td>
-                    <td align="center">
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    </td>
-                </tr>
-            }
-        }      
-        }            
-        </center>   
-    
+            </table>
+        }
+    </center>
+    <script src="~/scripts/jquery-2.2.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/scripts/jquery.chained.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function () {
+            $("#SelectedCarModel").chained("#SelectedCarManufacturer");
+            //$("#model").chained("#SelectedCarModel");
+            //$("#engine").chained("#SelectedCarModel, #model")
+        });
+    </script>
 </body>
 </html>
