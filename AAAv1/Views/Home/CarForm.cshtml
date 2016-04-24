@@ -9,88 +9,157 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/scripts/random_image.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/Site.css" />
-    <title>CarForm</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/mycss.css" />
+    <title>Наш сайтец о машинах</title>
 </head>
-<body>
-    <style>
-        Body {
-            background: linear-gradient(45deg, #000, #fff);
-        }
-    </style>
 
-    <center>
+
+
+<body>
+    <header>
+        <h1>Наш сайтец о машинах</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Главная страница</a></li>
+            <li><a href="#">Каталог авто</a></li>
+            <li><a href="#">Карта сайта</a></li>
+            <li><a href="#">О нас</a></li>
+            <li class="subscribe"><a href="#">Авторизация</a></li>
+        </ul>
+    </nav>
+    <section style="border:5px;" id="intro">
+        <font>Выберите марку авто:</font>
         @using (Html.BeginForm())
         {
-            <table align="center" width="1000px" border="0" cellspacing="10">
-                <tr>
-                    <td colspan="2" align="center" width="1000px" height="40px">
-                        <h1><font face="Arial">Поиск авто</font></h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center" width="1000px" height="275px" background="\Content\Images\7series-2015-a.jpg"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center" width="1000px">
-                        <h2><font face="Arial">Выберите параметры желаемого авто:</font></h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right" width="500px" height="70px">
-                        @Html.ValidationSummary()
-                        <select id="SelectedCarManufacturer" name="SelectedCarManufacturer">
-                            <option value=""></option>
-                            @foreach (var item in Model.Manufacturers)
-                            {
-                                <option value="@item">@item</option>
-                            }
-                        </select>
-                        <select id="SelectedCarModel" name="SelectedCarModel" disabled="">
-                            <option value="" class=""></option>
-                            @foreach (var manuf in Model.Manufacturers)
-                            {
-                                if (!string.IsNullOrEmpty(manuf) && Model.Models.ContainsKey(manuf))
-                                {
-                                    foreach (var car in Model.Models[manuf])
-                                    {
-                                        <option value="@car" class="@manuf">@car</option>
-                                    }
-                                }
-                            }
-                        </select>
-                        @*<select id="model" name="model" disabled="">
-                                <option value="">--</option>
-                            </select>
-                            <select id="engine" name="engine" disabled="">
-                                <option value="">--</option>
-                            </select>*@
-                        @*<p align="right">Марка: @Html.DropDownListFor(x => x.SelectedCarManufacturerID, Model.CarManufacturers, new { style = "width:176px;" })    </p>*@
-                        <p align="right">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })    </p>
-                    </td>
-                    <td align="left" width="500px" height="70px">
-                        @Html.ValidationSummary()
-                        @*<p align="left">    Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>*@
-                        <p align="left">    Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
-                    </td>
-                </tr>
-                <tr align="center" width="1000px" height="30px">
-                    <td colspan="2">
-                        @Html.ValidationSummary()
-                        <input style="width:176px;" type="submit" value="Искать" />
-                    </td>
-                </tr>
-            </table>
+            @Html.ValidationSummary()
+            <select id="SelectedCarManufacturer" name="SelectedCarManufacturer">
+                <option value=""></option>
+                @foreach (var item in Model.Manufacturers)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+
+            <select align="right" id="SelectedCarModel" name="SelectedCarModel" disabled="">
+                <option value="" class=""></option>
+                @foreach (var manuf in Model.Manufacturers)
+                {
+                    if (!string.IsNullOrEmpty(manuf) && Model.Models.ContainsKey(manuf))
+                    {
+                        foreach (var car in Model.Models[manuf])
+                        {
+                            <option value="@car" class="@manuf">@car</option>
+                        }
+                    }
+                }
+            </select>
+
+            <p align="right">Цена от @Html.TextBoxFor(x => x.CarPriceLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarPriceHigh, new { style = "width:59px;" })    </p>
+
+            @Html.ValidationSummary()
+            @*<p align="left">    Модель: @Html.TextBoxFor(x => x.SelectedCarModelID, new { style = "width:176px;" })</p>*@
+            <p align="right">    Год от @Html.TextBoxFor(x => x.CarYearLow, new { style = "width:59px;" }) до @Html.TextBoxFor(x => x.CarYearHigh, new { style = "width:59px;" }) </p>
+            @Html.ValidationSummary()
+            <input style="width:176px;" type="submit" value="Искать" />
         }
-    </center>
-    <script src="~/scripts/jquery-2.2.2.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/scripts/jquery.chained.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(function () {
-            $("#SelectedCarModel").chained("#SelectedCarManufacturer");
-            //$("#model").chained("#SelectedCarModel");
-            //$("#engine").chained("#SelectedCarModel, #model")
-        });
-    </script>
+
+        <img src="~/Content/Images/2.jpg" alt="car"/>
+       
+    </section>
+
+    <div id="content">
+        <div id="mainContent">
+            <section>
+                Мнго авто</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+
+                <script src="~/scripts/jquery-2.2.2.min.js" type="text/javascript" charset="utf-8"></script>
+                <script src="~/scripts/jquery.chained.js" type="text/javascript" charset="utf-8"></script>
+                <script type="text/javascript" charset="utf-8">
+                    $(function () {
+                        $("#SelectedCarModel").chained("#SelectedCarManufacturer");
+                        //$("#model").chained("#SelectedCarModel");
+                        //$("#engine").chained("#SelectedCarModel, #model")
+                    });
+                </script>
+
+                <!-- Вывод авто -->
+            </section>
+        </div>
+
+        <aside>
+            <section>
+                <header>
+                    <h3>Categories</h3>
+                </header>
+                <ul>
+                    <li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Sit amet consectetur</a></li>
+                    <li><a href="#">Adipisicing elit sed</a></li>
+                    <li><a href="#">Do eiusmod tempor</a></li>
+                    <li><a href="#">Incididunt ut labore</a></li>
+                </ul>
+            </section>
+            <section>
+                <header>
+                    <h3>Archives</h3>
+                </header>
+                <ul>
+                    <li><a href="#">December 2008</a></li>
+                    <li><a href="#">January 2009</a></li>
+                    <li><a href="#">February 2009</a></li>
+                    <li><a href="#">March 2009</a></li>
+                    <li><a href="#">April 2009</a></li>
+                    <li><a href="#">May 2009</a></li>
+                    <li><a href="#">June 2009</a></li>
+                </ul>
+            </section>
+        </aside>
+        </aside>
+    </div>
+
+
+    <footer>
+        <div>
+            <section id="about">
+                <header>
+                    <h3>About</h3>
+                </header>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco <a href="#">laboris nisi ut aliquip</a> ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </section>
+            <section id="blogroll">
+                <header>
+                    <h3>Blogroll</h3>
+                </header>
+                <ul>
+                    <li><a href="#">NETTUTS+</a></li>
+                    <li><a href="#">FreelanceSwitch</a></li>
+                    <li><a href="#">In The Woods</a></li>
+                    <li><a href="#">Netsetter</a></li>
+                    <li><a href="#">PSDTUTS+</a></li>
+                </ul>
+            </section>
+            <section id="popular">
+                <header>
+                    <h3>Popular</h3>
+                </header>
+                <ul>
+                    <li><a href="#">This is the title of a blog post</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+                    <li><a href="#">Consectetur adipisicing elit, sed do eiusmod</a></li>
+                    <li><a href="#">Duis aute irure dolor</a></li>
+                    <li><a href="#">Excepteur sint occaecat cupidatat</a></li>
+                    <li><a href="#">Reprehenderit in voluptate velit</a></li>
+                    <li><a href="#">Officia deserunt mollit anim id est laborum</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+                </ul>
+            </section>
+        </div>
+    </footer>
+
+   
 </body>
 </html>
