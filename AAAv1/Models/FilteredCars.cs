@@ -40,6 +40,7 @@ namespace AAAv1.Models
             Manufacturers.Add("Range");
             Manufacturers.Add("Evoque");
             Manufacturers.Add("Opel");
+            Manufacturers.Add("Porsche");
             Manufacturers.Add("Chrysler");
             Manufacturers.Add("Mazda");
             Manufacturers.Add("Subaru");

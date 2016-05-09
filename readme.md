@@ -1,1 +1,2 @@
 ![alt tag](http://i.imgur.com/r6707UX.png)
+<iframe src='https://onedrive.live.com/embed?cid=8B9206ED5E613278&resid=8B9206ED5E613278%21459&authkey=AGDXnUDzI93X8dY&em=2&wdAr=1.3333333333333333' width='1026px' height='793px' frameborder='0'>Это внедренный файл <a target='_blank' href='https://office.com'>Microsoft Office</a> на платформе <a target='_blank' href='https://office.com/webapps'>Office Online</a>.</iframe>
