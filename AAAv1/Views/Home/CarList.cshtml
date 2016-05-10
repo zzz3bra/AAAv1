@@ -10,58 +10,62 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CarList</title>
+    <link href="@Url.Content("~/Styles/vroomStyle.min.css")" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body class="page page-catalog">
     <style>
-        Body {
-            background: linear-gradient(45deg, #000, #fff);
-            background-repeat: no-repeat;
+        icon-garage {
+            background: url(@Url.Content("~/Content/Images/icon.png")) no-repeat;
+            padding-right: 25px;
         }
     </style>
-    <table align="center" width="1000px" border="0" cellspacing="10">
-        <tr>
-            <td align="center" width="100px">
-                <h3>Mark</h3>
-            </td>
-            <td align="center" width="100px">
-                <h3>Model</h3>
-            </td>
-            <td align="center" width="100px">
-                <h3>Year</h3>
-            </td>
-            <td align="center" width="100px">
-                <h3>Odometer</h3>
-            </td>
-            <td align="center" width="600px">
-                <h3>Description</h3>
-                </>
-        </tr>
-
-        @foreach (var item in Model.ads)
-        {
-            if (item != null)
+    <section id="section-catalog-results">
+        <ul id="lstResults" class="list-unstyled">
+            @foreach (var item in Model.ads)
             {
-                <tr>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Model.ManufacturerName)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Model.Name)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.Year)
-                    </td>
-                    <td align="center">
-                        @Html.DisplayFor(modelItem => item.Car.OdometerState)
-                    </td>
-                    <td align="center">
-                        @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
-                        <a href="@("http://ab.onliner.by/car/"+item.Id)">Details</a>
-                    </td>
-                </tr>
+                if (item != null)
+                {
+                    <li class="carItem">
+                        <div class="car-header">
+                            <div class="slick-slide item">
+                            </div>
+                            <img src="~/Content/Images/1.jpg">
+                            <div class="car-header-metadata-like">
+                                <img src="~/Content/Images/icon.png">
+                            </div>
+                        </div>
+                        <div class="car-content">
+                            <div class="car-content-details">
+                                <a href="@("http://ab.onliner.by/car/"+item.Id)" target="_blank">
+                                    <div class="car-content-details-name">
+                                        <span>@item.Car.Year</span>
+                                        <span> </span>
+                                        <span>@item.Car.Model.ManufacturerName</span>
+                                        <span> </span>
+                                        <span>@item.Car.Model.Name</span>
+                                    </div>
+                                </a>
+                                <div class="car-content-details-mileage">
+                                    <span>@item.Car.OdometerState</span>
+                                    <span> km</span>
+                                </div>
+                            </div>
+                            <div class="car-content-features"><span>unknown yet</span></div>
+                        </div>
+                        <a href="@("http://ab.onliner.by/car/"+item.Id)" target="_blank">
+                            <div class="car-footer">
+                                <div class="car-footer-price">
+                                    <span class="car-footer-price-label">
+                                    <span>Цена</span></span>
+                                    <span class="car-footer-price-value">
+                                    <span class="vroom-price"> 0.00 BYN </span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
             }
-        }
-
-    </table>
+        </ul>
+    </section>
 </body>
 </html>
