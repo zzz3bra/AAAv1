@@ -11,6 +11,10 @@ namespace AAAv1.Controllers
 {
     public class HomeController : Controller
     {
+        FilteredCars currentResponse;
+        //Коннектимся к БД, открываемся юзера по умолчанию
+        UserBase currentBase = UserBase.Instance;
+        UserRecord currentUser = UserBase.CurrentUser;
         // GET: Home
         public ActionResult Index()
         {
@@ -35,6 +39,7 @@ namespace AAAv1.Controllers
             if (ModelState.IsValid)
             {
                 userResponse.GetCars();
+                currentResponse = userResponse;
                 return View("CarList", userResponse);
             }
             else
@@ -42,6 +47,11 @@ namespace AAAv1.Controllers
                 FilteredCars filter = new FilteredCars();
                 return View(filter);
             }
+        }
+        public EmptyResult AddFavouriteToUser(string carID)
+        {
+            currentUser.AddFavouriteADS(currentResponse.ads.Find(item => item.Id.ToString() == carID));
+            return new EmptyResult();
         }
     }
 }

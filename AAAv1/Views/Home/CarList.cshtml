@@ -1,5 +1,5 @@
 ﻿@model AAAv1.Models.FilteredCars
-
+@using AAAv1.Models;
 @{
     Layout = null;
 }
@@ -10,6 +10,12 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CarList</title>
+    <script type="text/javascript" src="~/scripts/jquery-2.2.2.js"></script>
+    <script type="text/javascript">
+        function ADDFav(item) {
+            $.get("/Home/AddFavouriteToUser", { carID: item });
+        };
+    </script>
     <link href="@Url.Content("~/Styles/vroomStyle.min.css")" rel="stylesheet" type="text/css" />
 </head>
 <body class="page page-catalog">
@@ -21,7 +27,7 @@
     </style>
     <section id="section-catalog-results">
         <ul id="lstResults" class="list-unstyled">
-            @foreach (var item in Model.ads)
+            @foreach (ADS item in Model.ads)
             {
                 if (item != null)
                 {
@@ -30,8 +36,14 @@
                             <div class="slick-slide item">
                             </div>
                             <img src="~/Content/Images/1.jpg">
-                            <div class="car-header-metadata-like">
-                                <img src="~/Content/Images/icon.png">
+                            @*<div class="car-header-badges"><div class="badge badge-sale-pending">Рекомендуемое</div></div>*@
+                            <div class="car-header-metadata">
+                                <div class="car-header-metadata-like">
+                                    <div class="cmdAddToWishlist">
+                                        @*<i class="icon" onclick="ADDFav('@("http://ab.onliner.by/car/"+item.Id)')"><img src="~/Content/Images/icon.png"></i>*@
+                                        <i class="icon" onclick="ADDFav(@item.Id)"><img src="~/Content/Images/icon.png"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="car-content">
@@ -56,9 +68,11 @@
                             <div class="car-footer">
                                 <div class="car-footer-price">
                                     <span class="car-footer-price-label">
-                                    <span>Цена</span></span>
+                                        <span>Цена</span>
+                                    </span>
                                     <span class="car-footer-price-value">
-                                    <span class="vroom-price"> 0.00 BYN </span></span>
+                                        <span class="vroom-price"> 0.00 BYN </span>
+                                    </span>
                                 </div>
                             </div>
                         </a>

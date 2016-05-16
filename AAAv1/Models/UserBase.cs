@@ -7,6 +7,7 @@ namespace AAAv1.Models
 {
     public class UserBase
     {
+        public static UserRecord CurrentUser { get; private set; }
         protected UserBase() { }
         public static UserBase Instance
         {
