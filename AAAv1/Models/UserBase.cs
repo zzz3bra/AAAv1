@@ -8,7 +8,11 @@ namespace AAAv1.Models
     public class UserBase
     {
         public static UserRecord CurrentUser { get; private set; }
-        protected UserBase() { }
+        public static UserRecord MockUser { get; private set; }
+        protected UserBase()
+        {
+            MockUser = new UserRecord(-1, "Kanjodriver", new List<ADS>(), new List<Notification>());
+        }
         public static UserBase Instance
         {
             get
@@ -34,13 +38,13 @@ namespace AAAv1.Models
         {
             //удаление юзера из базы
         }
-        public void UpdateUserInfo(int UsedID, List<ADS> FavouriteADS, List<Notification> Notification)
+        public void UpdateUserInfo(UserRecord userRecord)
         {
             //изменение предпочтений пользователя, пароль пока не трогаем
         }
         public List<Notification> GetAllNotifications()
         {
-            //получаем все уведомления для класса УВЕДОМИТЕЛЬ который собстенно и будет уведомлять
+            //получаем все уведомления для класса УВЕДОМИТЕЛЬ который собственно и будет уведомлять
             return new List<Notification>();
         }
     }

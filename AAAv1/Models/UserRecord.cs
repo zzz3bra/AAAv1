@@ -27,6 +27,13 @@ namespace AAAv1.Models
         {
             FavouriteADS.Remove(ad);
         }
+        public ADS GetIdealCar()
+        {
+            //сложная логика по подбору авто или вызов хранимки
+            ADS idealCar = new ADS();
+            idealCar.Car = new Car() { Model = new Model() { ManufacturerName = "Honda", Name = "Civic" } };
+            return idealCar;
+        }
         public UserRecord(int id, string Name, List<ADS> FavouriteADS, List<Notification> Notification)
         {
             this.id = id;

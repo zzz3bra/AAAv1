@@ -121,7 +121,8 @@ namespace AAAv1.Models
                         }
                     }
                 }
-                else {
+                else
+                {
                     for (int i = 0; i < ads.Count; i++)
                     {
                         if (ads[i] != null)
@@ -164,7 +165,8 @@ namespace AAAv1.Models
                         }
                     }
                 }
-                else {
+                else
+                {
                     for (int i = 0; i < ads.Count; i++)
                     {
                         if (ads[i] != null)
@@ -197,6 +199,7 @@ namespace AAAv1.Models
         {
             GetDataOfCar Parser = new GetDataOfCar();
             ads = Parser.GetADS("");
+            //ads.AddRange(Parser.GetADS(UserBase.MockUser.GetIdealCar().ToString()));
 #if DEBUG
             #region Debug list
             //cars.Add(new CarAd() { Manufacturer = Enum.GetName(typeof(CarMarkListOnliner), 1), Model = "Civic", Year = 1488, Price = 3700 });

@@ -14,7 +14,7 @@ namespace AAAv1.Controllers
         FilteredCars currentResponse;
         //Коннектимся к БД, открываемся юзера по умолчанию
         UserBase currentBase = UserBase.Instance;
-        UserRecord currentUser = UserBase.CurrentUser;
+        UserRecord currentUser = UserBase.MockUser;
         // GET: Home
         public ActionResult Index()
         {
