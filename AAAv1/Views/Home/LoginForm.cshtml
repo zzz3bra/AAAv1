@@ -1,0 +1,24 @@
+﻿@model AAAv1.Models.LoginHelper
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LoginForm</title>
+</head>
+<body>
+    <div align="center">
+        @using (Html.BeginForm())
+        {
+            <p align="center"> E-mail (kanjodriver@1488.com): @Html.TextBoxFor(x => x.Email) </p>
+            <p align="center"> Пароль (ilovehonda): @Html.TextBoxFor(x => x.Password) </p>
+            <p align="center"> Новый пользователь? @Html.CheckBoxFor(x => x.CreateUser) </p>
+            <input style="width:176px;" type="submit" value="Продолжить" />
+        }
+    </div>
+</body>
+</html>

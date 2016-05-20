@@ -32,6 +32,8 @@
         </ul>
     </nav>
     <section style="border:5px;" id="intro">
+        @Html.ActionLink(@"Профиль " + Model.UserEmail, "UserProfile")
+        <br />
         <font>Выберите марку авто:</font>
         @using (Html.BeginForm())
         {
@@ -67,8 +69,8 @@
             <input style="width:176px;" type="submit" value="Искать" />
         }
 
-        <img src="~/Content/Images/2.jpg" alt="car"/>
-       
+        <img src="~/Content/Images/2.jpg" alt="car" />
+
     </section>
 
     <div id="content">
@@ -160,6 +162,6 @@
         </div>
     </footer>
 
-   
+
 </body>
 </html>

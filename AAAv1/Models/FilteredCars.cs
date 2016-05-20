@@ -19,8 +19,12 @@ namespace AAAv1.Models
         {
             get; private set;
         }
-        public FilteredCars()
+        public FilteredCars() : this(UserBase.Instance.CurrentUser.Email)
         {
+        }
+        public FilteredCars(string UserEmail)
+        {
+            this.UserEmail = UserEmail;
             Manufacturers = new List<string>();
             Models = new Dictionary<string, string[]>();
             Manufacturers.Add("Honda");
@@ -68,6 +72,7 @@ namespace AAAv1.Models
         public int? CarYearHigh { get; set; }
         public int? CarPriceLow { get; set; }
         public int? CarPriceHigh { get; set; }
+        public string UserEmail { get; private set; }
         public void GetCars()
         {
             FillCars();

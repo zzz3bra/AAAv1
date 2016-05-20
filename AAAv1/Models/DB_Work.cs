@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace TestSQL_console
+namespace AAAv1.Models
 {
     public class DB_Work : IDisposable
     {
@@ -79,7 +79,7 @@ namespace TestSQL_console
             _sql_connect.Close();
             Console.WriteLine("Соединение закрыто");
         }
-        public void AddNewUser(string Pass, string Email)
+        public void AddNewUser(string Email, string Pass)
         {
             commandString = "INSERT INTO " + usersTable + " (Pass,Email) VALUES ('" + Pass + "','" + Email + "')";
 
@@ -87,6 +87,17 @@ namespace TestSQL_console
 
             cmdSQL.ExecuteNonQuery();
             Console.WriteLine("Пользователь добавлен");
+            _sql_connect.Close();
+            Console.WriteLine("Соединение закрыто");
+        }
+        public void RemoveUser(string Email)
+        {
+            commandString = "DELETE FROM " + usersTable + " WHERE (Email=" + Email + ")";
+
+            Connect(commandString);
+
+            cmdSQL.ExecuteNonQuery();
+            Console.WriteLine("Пользователь удален");
             _sql_connect.Close();
             Console.WriteLine("Соединение закрыто");
         }
@@ -184,7 +195,7 @@ namespace TestSQL_console
         public int CheckUser(string Email, string pass)
         {
             int result = -1;
-            commandString = "SELECT * FROM " + usersTable + " WHERE (ID=" + FindUserID(Email) + ")AND(Pass='" + pass + "')";
+            commandString = "SELECT * FROM " + usersTable + " WHERE (ID=" + FindUserID(Email) + ") AND (Pass='" + pass + "')";
 
             Connect(commandString);
 

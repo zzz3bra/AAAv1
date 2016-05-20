@@ -7,11 +7,14 @@ namespace AAAv1.Models
 {
     public class UserBase
     {
-        public static UserRecord CurrentUser { get; private set; }
+        private static string connect_string = @"Data Source=localhost;AttachDbFilename=C:\Users\Станислав\TestDataBase.mdf;Integrated Security=true";
+        private static DB_Work dbWorker;
+        public UserRecord CurrentUser { get; set; }
         public static UserRecord MockUser { get; private set; }
         protected UserBase()
         {
-            MockUser = new UserRecord(-1, "Kanjodriver", new List<ADS>(), new List<Notification>());
+            //MockUser = new UserRecord(-1, "Kanjodriver", new List<ADS>(), new List<Notification>());
+            dbWorker = new DB_Work(connect_string);
         }
         public static UserBase Instance
         {
@@ -29,14 +32,28 @@ namespace AAAv1.Models
                 get { return instance; }
             }
         }
-        public UserRecord GetUserByCredentials(string account, string password)
+        public UserRecord GetUserByCredentials(string email, string password)
         {
-            //запрос в базу, поиск юзера и возврат его в виде объекта
-            return new UserRecord(1, "AGL", new List<ADS>(), new List<Notification>());
+            int userID = dbWorker.CheckUser(email, password);
+            if (userID == -1)
+            {
+                return null;
+            }
+            // нужен метод по доставанию списков юзера
+            return new UserRecord(userID, email, new List<ADS>(), new List<Notification>());
         }
-        public void RemoveUserAccountById(int UserID)
+        public int AddUser(string email, string password)
         {
-            //удаление юзера из базы
+            if (dbWorker.CheckUser(email, password) != -1)
+            {
+                return -1;
+            }
+            dbWorker.AddNewUser(email, password);
+            return dbWorker.CheckUser(email, password);
+        }
+        public void RemoveUserAccount(string email)
+        {
+            dbWorker.RemoveUser(email);
         }
         public void UpdateUserInfo(UserRecord userRecord)
         {

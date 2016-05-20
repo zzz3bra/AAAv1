@@ -4,6 +4,7 @@ namespace AAAv1.Models
 {
     public class ADS
     {
+        public bool Recommended { get; set; }
         public long Id { get; set; }
         public string Title { get; set; }
         public Car Car { get; set; }

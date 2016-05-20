@@ -12,9 +12,9 @@ namespace AAAv1.Controllers
     public class HomeController : Controller
     {
         FilteredCars currentResponse;
+        List<ADS> currentADS;
         //Коннектимся к БД, открываемся юзера по умолчанию
         UserBase currentBase = UserBase.Instance;
-        UserRecord currentUser = UserBase.MockUser;
         // GET: Home
         public ActionResult Index()
         {
@@ -23,13 +23,40 @@ namespace AAAv1.Controllers
         }
         public RedirectResult RedirectFromIndexToForm()
         {
-            return RedirectPermanent("/Home/CarForm");
+            return RedirectPermanent("/Home/LoginForm");
         }
-
+        [HttpGet]
+        public ViewResult UserProfile()
+        {
+            return View("UserProfile", currentBase.CurrentUser);
+        }
+        [HttpGet]
+        public ViewResult LoginForm()
+        {
+            LoginHelper loginer = new LoginHelper();
+            return View(loginer);
+        }
+        [HttpPost]
+        public ActionResult LoginForm(LoginHelper userResponse)
+        {
+            if (userResponse.CreateUser)
+            {
+                currentBase.AddUser(userResponse.Email, userResponse.Password);
+                currentBase.CurrentUser = currentBase.GetUserByCredentials(userResponse.Email, userResponse.Password);
+            }
+            else
+            {
+                if ((currentBase.CurrentUser = currentBase.GetUserByCredentials(userResponse.Email, userResponse.Password)) == null)
+                {
+                    return View(new LoginHelper());
+                }
+            }
+            return Redirect("CarForm");
+        }
         [HttpGet]
         public ViewResult CarForm()
         {
-            FilteredCars searcher = new FilteredCars();
+            FilteredCars searcher = new FilteredCars(currentBase.CurrentUser.Email);
             return View(searcher);
         }
 
@@ -39,18 +66,18 @@ namespace AAAv1.Controllers
             if (ModelState.IsValid)
             {
                 userResponse.GetCars();
-                currentResponse = userResponse;
+                UserBase.Instance.CurrentUser.currentADS = userResponse.ads;
                 return View("CarList", userResponse);
             }
             else
             {
-                FilteredCars filter = new FilteredCars();
+                FilteredCars filter = new FilteredCars(currentBase.CurrentUser.Email);
                 return View(filter);
             }
         }
         public EmptyResult AddFavouriteToUser(string carID)
         {
-            currentUser.AddFavouriteADS(currentResponse.ads.Find(item => item.Id.ToString() == carID));
+            currentBase.CurrentUser.AddFavouriteADS(UserBase.Instance.CurrentUser.currentADS.Find(item => item.Id.ToString() == carID));
             return new EmptyResult();
         }
     }

@@ -8,20 +8,21 @@ namespace AAAv1.Models
     public class UserRecord
     {
         public int id { get; private set; }
-        public string Name { get; private set; }
+        public string Email { get; private set; }
+        public List<ADS> currentADS { get; set; }
         public List<ADS> FavouriteADS { get; private set; }
         public List<Notification> Notifications { get; private set; }
         public void AddNotification(Notification notification)
         {
             Notifications.Add(notification);
         }
-        public void AddFavouriteADS(ADS ad)
-        {
-            FavouriteADS.Add(ad);
-        }
         public void RemoveNotification(Notification notification)
         {
             Notifications.Remove(notification);
+        }
+        public void AddFavouriteADS(ADS ad)
+        {
+            FavouriteADS.Add(ad);
         }
         public void RemoveFavouriteADS(ADS ad)
         {
@@ -34,10 +35,10 @@ namespace AAAv1.Models
             idealCar.Car = new Car() { Model = new Model() { ManufacturerName = "Honda", Name = "Civic" } };
             return idealCar;
         }
-        public UserRecord(int id, string Name, List<ADS> FavouriteADS, List<Notification> Notification)
+        public UserRecord(int id, string Email, List<ADS> FavouriteADS, List<Notification> Notifications)
         {
             this.id = id;
-            this.Name = Name;
+            this.Email = Email;
             this.FavouriteADS = FavouriteADS;
             this.Notifications = Notifications;
         }

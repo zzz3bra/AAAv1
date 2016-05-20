@@ -6,15 +6,24 @@ namespace TestSQL_console
     {
         static void Main(string[] args)
         {
-            string connect_string = @"Data Source=(LocalDB)\TestDB;AttachDbFilename=C:\Users\Станислав\TestDataBase.mdf;Integrated Security=true";
+            string connect_string = @"Data Source=localhost;AttachDbFilename=C:\Users\Станислав\TestDataBase.mdf;Integrated Security=true";
 
-            DB_Work dbw = new DB_Work(connect_string);
-            Search srch = new Search();
+            using (DB_Work dbw = new DB_Work(connect_string))
+            {
+                string user = "email";
+                string pass = "pass";
+                if (dbw.CheckUser(user, pass) == -1)
+                {
+                    dbw.AddNewUser(user, pass);
+                }
+                Console.WriteLine(dbw.CheckUser(user, pass));
+            }
+            //Search srch = new Search();
 
-            srch.SetMinPrice(2500);
-            srch.SetMinPrice(2500);
-            srch.SetMaxPrice(4000);
-            srch.SetMaxPrice(4000);
+            //srch.SetMinPrice(2500);
+            //srch.SetMinPrice(2500);
+            //srch.SetMaxPrice(40000);
+            //srch.SetMaxPrice(40000);
 
             //dbw.Search(DB_Work.carsTable, srch.SearchString());
             //dbw.Search(DB_Work.usersTable, srch.SearchString());
@@ -23,7 +32,7 @@ namespace TestSQL_console
             //dbw.AddFavorite(7, 8006);
             //dbw.DeleteRow(DB_Work.carsTable, 8004);
 
-            dbw.Search(DB_Work.carsTable, srch.SearchString());
+            //dbw.Search(DB_Work.carsTable, srch.SearchString());
 
             Console.WriteLine("Нажать enter для выхода...");
 

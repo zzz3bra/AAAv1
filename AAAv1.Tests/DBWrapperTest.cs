@@ -17,25 +17,7 @@ namespace AAAv1.Tests
         public DBWrapperTest()
         {
             testBase = UserBase.Instance;
-            testRecord = UserBase.MockUser;
-        }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            testRecord = UserBase.Instance.CurrentUser;
         }
 
         #region Additional test attributes
@@ -66,14 +48,14 @@ namespace AAAv1.Tests
             Assert.IsNotNull(testBase);
         }
         [TestMethod]
-        public void TestIfUserRecordIsExist()
+        public void TestAddUser()
         {
-            Assert.IsNotNull(testRecord);
+            Assert.IsTrue(testBase.AddUser("email", "pass") != -1);
         }
-
         [TestMethod]
         public void TestAddFavouriteToUser()
         {
+            testRecord = testBase.GetUserByCredentials("email", "pass");
             int beforeCount = testRecord.FavouriteADS.Count;
             testRecord.AddFavouriteADS(new ADS());
             int afterCount = testRecord.FavouriteADS.Count;
@@ -83,6 +65,11 @@ namespace AAAv1.Tests
         public void TestIdealCarIsCreated()
         {
             Assert.IsNotNull(testRecord.GetIdealCar());
+        }
+        [TestMethod]
+        public void TestRemoveUser()
+        {
+            testBase.RemoveUserAccount("email");
         }
     }
 }

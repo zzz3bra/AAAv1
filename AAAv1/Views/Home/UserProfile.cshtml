@@ -1,4 +1,4 @@
-﻿@model AAAv1.Models.FilteredCars
+﻿@model AAAv1.Models.UserRecord
 @using AAAv1.Models;
 @{
     Layout = null;
@@ -9,13 +9,8 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>CarList</title>
+    <title>Profile</title>
     <script type="text/javascript" src="~/scripts/jquery-2.2.2.js"></script>
-    <script type="text/javascript">
-        function ADDFav(item) {
-            $.post("/Home/AddFavouriteToUser", { carID: item });
-        };
-    </script>
     <link href="@Url.Content("~/Styles/vroomStyle.min.css")" rel="stylesheet" type="text/css" />
 </head>
 <body class="page page-catalog">
@@ -25,11 +20,23 @@
             padding-right: 25px;
         }
     </style>
-    @Html.ActionLink(@"Профиль", "UserProfile")
+    @Html.ActionLink(@"Форма поиска", "CarForm")
+    <p align="center"> Ваш Email: @Model.Email </p>
+    Оповещения:
+    @foreach (Notification item in Model.Notifications)
+    {
+        <br />
+        <span>Включено: @item.Enabled</span>
+        <span> </span>
+        <span>Содержимое оповещения: @item.Notifications</span>
+        <span> </span>
+        <span>Время последней отправки: @item.LastSendTime</span>
+    }
+    <br />
+    Автомобили в избранном:
     <section id="section-catalog-results">
         <ul id="lstResults" class="list-unstyled">
-            @ViewBag.ads=Model.ads;
-            @foreach (ADS item in Model.ads)
+            @foreach (ADS item in Model.FavouriteADS)
             {
                 if (item != null)
                 {
